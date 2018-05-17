@@ -206,6 +206,9 @@
                     <navigationItem key="navigationItem" title="Авторизация" id="Mzu-5h-0SE">
                         <barButtonItem key="backBarButtonItem" title=" " id="Jfb-DK-GVS"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="forgetPassButton" destination="SNb-Vm-TeU" id="B6w-oP-r4A"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JXM-vN-dt3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
