@@ -10,9 +10,12 @@ import UIKit
 
 class AuthorizationVC: UIViewController {
    
+    @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var forgetPassButton: UIButton!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
+    
+    //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +29,26 @@ class AuthorizationVC: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
-   @objc func keyboardWillShow(_ notification: Notification) {
+    //MARK: - Action
+    
+    @IBAction func tapGestureAction(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    @IBAction func authorizationButtonAction(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func emailTextFieldEnterAction(_ sender: UITextField) {
+        passTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func passTextfieldEnterAction(_ sender: UITextField) {
+        view.endEditing(true)
+    }
+    //MARK: - Keyboard
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             bottomConstraint.constant = keyboardSize.height
         }
