@@ -102,7 +102,7 @@ class AuthorizationVC: UIViewController {
         let alertTitle = "Погода"
         let errorMessage = "Не удалось загрузить погоду"
         authorizationButton.isEnabled = false;
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+
         Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil)
             .responseJSON { response in
                 self.authorizationButton.isEnabled = true
@@ -112,8 +112,6 @@ class AuthorizationVC: UIViewController {
                     self.showAlertController(title: alertTitle, message: errorMessage)
                     return
                 }
-                
-
                 
                 if let json:[String:Any] = response.result.value as? [String:Any] {
                     
@@ -125,8 +123,6 @@ class AuthorizationVC: UIViewController {
                     self.showAlertController(title: alertTitle, message: errorMessage)
                     return
                 }
-
         }
     }
-    
 }
