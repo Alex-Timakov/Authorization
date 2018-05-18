@@ -207,6 +207,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="Jfb-DK-GVS"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomConstraint" destination="NV5-4s-c5x" id="zpk-7n-YvH"/>
                         <outlet property="forgetPassButton" destination="SNb-Vm-TeU" id="B6w-oP-r4A"/>
                     </connections>
                 </viewController>
