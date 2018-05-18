@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class AuthorizationVC: UIViewController {
    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
+    @IBOutlet weak var authorizationButton: UIButton!
     @IBOutlet weak var forgetPassButton: UIButton!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
@@ -46,13 +48,12 @@ class AuthorizationVC: UIViewController {
     
     @IBAction func authorizationButtonAction(_ sender: UIButton) {
         view.endEditing(true)
-        var title = "Погода"
-        var message = "Нет данных"
         if let errorMessage = validationErrorMessage() {
-            title = "Ошибка валидации"
-            message = errorMessage
+            showAlertController(title: "Ошибка валидации", message: errorMessage)
+        } else {
+            loadData()
         }
-        showAlertController(title: title, message: message)
+        
     }
     
     @IBAction func emailTextFieldEnterAction(_ sender: UITextField) {
@@ -93,6 +94,44 @@ class AuthorizationVC: UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+    func loadData() {
+        let url:String = "http://api.openweathermap.org/data/2.5/weather"
+        let key:String = "dc734cb6ed792c3d6d0dc4fd0aec12f9"
+        let parameters = ["q": "Novosibirsk", "APPID": key]
+        let alertTitle = "Погода"
+        var message = "Не удалось загрузить погоду"
+        authorizationButton.isEnabled = false;
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil)
+            .responseJSON { response in
+                self.authorizationButton.isEnabled = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                print(response)
+                if response.result.isFailure {
+                    self.showAlertController(title: alertTitle, message: message)
+                    return
+                }
+                
+
+                
+                if let JSON:[String:Any] = response.result.value as? [String:Any] {
+                    
+                    let mainObject:[String:Any] = JSON["main"] as! [String:Any]
+                    let temperatureInt:Int = mainObject["temp"] as! Int
+                } else {
+                    self.showAlertController(title: alertTitle, message: message)
+                    return
+                }
+                    
+//
+//                    let weatherObjects:[Any] = JSON["weather"] as! [Any]
+//                    let weatherObject:[String:Any] = weatherObjects[0] as! [String:Any]
+//                    let descString:String = weatherObject["description"] as! String
+//
+//                    self.responseLabel.text = String(temperatureInt) + "°C, " + descString
+//                }
+        }
     }
     
 }

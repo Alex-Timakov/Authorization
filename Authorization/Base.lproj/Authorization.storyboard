@@ -230,6 +230,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="Jfb-DK-GVS"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="authorizationButton" destination="TJW-Bq-EHs" id="5Wd-P8-0xm"/>
                         <outlet property="bottomConstraint" destination="NV5-4s-c5x" id="zpk-7n-YvH"/>
                         <outlet property="emailTextField" destination="QK9-zc-CCl" id="Qwc-Zh-ICR"/>
                         <outlet property="forgetPassButton" destination="SNb-Vm-TeU" id="B6w-oP-r4A"/>
