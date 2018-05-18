@@ -14,7 +14,7 @@ extension String {
     private static let __emailRegex = __firstpart + "@" + __serverpart + "[A-Za-z]{2,6}"
     private static let __password =
     //"^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$ "
-    "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
+    "(?=^.{6,}$)^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
     public var isEmail: Bool {
         let predicate = NSPredicate(format: "SELF MATCHES %@", type(of:self).__emailRegex)
         return predicate.evaluate(with: self)
@@ -93,7 +93,7 @@ class AuthorizationVC: UIViewController {
                     if password.isPassword {
                         errorMessage = nil
                     } else {
-                        errorMessage =  "Неверный пароль"
+                        errorMessage =  "Неверный пароль. Пароль - минимум 6 символов, должен обязательно содержать минимум 1 строчную букву, 1 заглавную, и 1 цифру."
                         passTextField.becomeFirstResponder()
                     }
                     
