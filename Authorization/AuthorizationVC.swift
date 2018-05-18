@@ -100,7 +100,7 @@ class AuthorizationVC: UIViewController {
         let key:String = "dc734cb6ed792c3d6d0dc4fd0aec12f9"
         let parameters = ["q": "Novosibirsk", "APPID": key]
         let alertTitle = "Погода"
-        var message = "Не удалось загрузить погоду"
+        let errorMessage = "Не удалось загрузить погоду"
         authorizationButton.isEnabled = false;
         UIApplication.shared.isNetworkActivityIndicatorVisible = true;
         Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil)
@@ -109,28 +109,23 @@ class AuthorizationVC: UIViewController {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 print(response)
                 if response.result.isFailure {
-                    self.showAlertController(title: alertTitle, message: message)
+                    self.showAlertController(title: alertTitle, message: errorMessage)
                     return
                 }
                 
 
                 
-                if let JSON:[String:Any] = response.result.value as? [String:Any] {
+                if let json:[String:Any] = response.result.value as? [String:Any] {
                     
-                    let mainObject:[String:Any] = JSON["main"] as! [String:Any]
-                    let temperatureInt:Int = mainObject["temp"] as! Int
+                    let mainObject:[String:Any] = json["main"] as! [String:Any]
+                    let temperatureInt:Float = mainObject["temp"] as! Float
+                    let humidityInt:Int = mainObject["humidity"] as! Int
+                    self.showAlertController(title: alertTitle, message: "Температура в Новосибирске сейчас: \(temperatureInt - 273.15) градусов, влажность воздуха: \(humidityInt) %")
                 } else {
-                    self.showAlertController(title: alertTitle, message: message)
+                    self.showAlertController(title: alertTitle, message: errorMessage)
                     return
                 }
-                    
-//
-//                    let weatherObjects:[Any] = JSON["weather"] as! [Any]
-//                    let weatherObject:[String:Any] = weatherObjects[0] as! [String:Any]
-//                    let descString:String = weatherObject["description"] as! String
-//
-//                    self.responseLabel.text = String(temperatureInt) + "°C, " + descString
-//                }
+
         }
     }
     
