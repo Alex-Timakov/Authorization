@@ -139,6 +139,9 @@
                                                         <integer key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="forgetPassButtonAction:" destination="Lrs-xC-f5N" eventType="touchUpInside" id="kB3-tm-0DF"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -172,6 +175,9 @@
                                         <state key="normal" title="У мня еще нет аккаунта. Создать.">
                                             <color key="titleColor" red="0.21568627450980393" green="0.52156862745098043" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="createButtonAction:" destination="Lrs-xC-f5N" eventType="touchUpInside" id="t79-cy-zJJ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJW-Bq-EHs">
                                         <rect key="frame" x="87.5" y="400" width="145" height="44"/>
