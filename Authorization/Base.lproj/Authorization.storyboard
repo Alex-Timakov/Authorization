@@ -225,6 +225,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bottomConstraint" destination="NV5-4s-c5x" id="zpk-7n-YvH"/>
+                        <outlet property="emailTextField" destination="QK9-zc-CCl" id="Qwc-Zh-ICR"/>
                         <outlet property="forgetPassButton" destination="SNb-Vm-TeU" id="B6w-oP-r4A"/>
                         <outlet property="passTextField" destination="fO2-Ij-fgR" id="cji-xc-Qt2"/>
                     </connections>

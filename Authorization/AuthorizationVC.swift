@@ -8,8 +8,20 @@
 
 import UIKit
 
+extension String {
+    private static let __firstpart = "[A-Z0-9a-z]([A-Z0-9a-z._%+-]{0,30}[A-Z0-9a-z])?"
+    private static let __serverpart = "([A-Z0-9a-z]([A-Z0-9a-z-]{0,30}[A-Z0-9a-z])?\\.){1,5}"
+    private static let __emailRegex = __firstpart + "@" + __serverpart + "[A-Za-z]{2,6}"
+    
+    public var isEmail: Bool {
+        let predicate = NSPredicate(format: "SELF MATCHES %@", type(of:self).__emailRegex)
+        return predicate.evaluate(with: self)
+    }
+}
+
 class AuthorizationVC: UIViewController {
    
+    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var forgetPassButton: UIButton!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
@@ -36,7 +48,15 @@ class AuthorizationVC: UIViewController {
     }
     
     @IBAction func authorizationButtonAction(_ sender: UIButton) {
-        
+        var title = "Погода"
+        var message = "Нет данных"
+        if let errorMessage = validationErrorMessage() {
+            title = "Ошибка валидации"
+            message = errorMessage
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func emailTextFieldEnterAction(_ sender: UITextField) {
@@ -55,6 +75,24 @@ class AuthorizationVC: UIViewController {
     }
     @objc func keyboardWillHide(_ notification: Notification) {
         bottomConstraint.constant = 0
+    }
+    
+    //MARK: - Validation
+    func validationErrorMessage() -> String? {
+        var errorMessage: String? = "Введите E-mail"
+        if let email = emailTextField.text {
+            if email.isEmail {
+                errorMessage = nil
+            } else {
+                errorMessage = "Неверный E-mail"
+                emailTextField.becomeFirstResponder()
+            }
+        }
+
+        if errorMessage == nil {
+            view.endEditing(true)
+        }
+        return errorMessage
     }
 
 }
