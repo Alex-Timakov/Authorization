@@ -12,9 +12,15 @@ extension String {
     private static let __firstpart = "[A-Z0-9a-z]([A-Z0-9a-z._%+-]{0,30}[A-Z0-9a-z])?"
     private static let __serverpart = "([A-Z0-9a-z]([A-Z0-9a-z-]{0,30}[A-Z0-9a-z])?\\.){1,5}"
     private static let __emailRegex = __firstpart + "@" + __serverpart + "[A-Za-z]{2,6}"
-    
+    private static let __password =
+    //"^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$ "
+    "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
     public var isEmail: Bool {
         let predicate = NSPredicate(format: "SELF MATCHES %@", type(of:self).__emailRegex)
+        return predicate.evaluate(with: self)
+    }
+    public var isPassword: Bool {
+        let predicate = NSPredicate(format: "SELF MATCHES %@", type(of:self).__password)
         return predicate.evaluate(with: self)
     }
 }
@@ -83,16 +89,28 @@ class AuthorizationVC: UIViewController {
         if let email = emailTextField.text {
             if email.isEmail {
                 errorMessage = nil
+                if let password = passTextField.text {
+                    if password.isPassword {
+                        errorMessage = nil
+                    } else {
+                        errorMessage =  "Неверный пароль"
+                        passTextField.becomeFirstResponder()
+                    }
+                    
+                } else {
+                    errorMessage = "Введите пароль"
+                }
             } else {
                 errorMessage = "Неверный E-mail"
                 emailTextField.becomeFirstResponder()
             }
         }
+        
 
         if errorMessage == nil {
             view.endEditing(true)
         }
         return errorMessage
     }
-
+    
 }
